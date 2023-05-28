@@ -13,11 +13,17 @@ const BoxTwe = styled.div`
   width: 100px;
   height: 100px;
 `;
+const Text = styled.span`
+  color: white;
+  
+`;
 
 function App() {
   return (
     <Father>
-      <BoxOne />
+      <BoxOne>
+        <Text>Hello</Text>
+      </BoxOne>
       <BoxTwe />
     </Father>
   );
