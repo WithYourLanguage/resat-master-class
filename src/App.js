@@ -2,6 +2,10 @@ import styled, { keyframes } from "styled-components";
 
 const Father = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const rotationAnimation = keyframes`
@@ -19,6 +23,10 @@ const rotationAnimation = keyframes`
   }
 `;
 
+const Emoji = styled.span`
+  color: white;
+`;
+
 const Box = styled.div`
   height: 100px;
   width: 100px;
@@ -27,8 +35,7 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   animation: ${rotationAnimation} 1.5s linear infinite;
-  span {
-    color: white;
+  ${Emoji} {
     &:hover {
       font-size: 30px;
     }
@@ -39,7 +46,7 @@ function App() {
   return (
     <Father>
       <Box>
-        <span>Happy </span>
+        <Emoji>Happy </Emoji>
       </Box>
     </Father>
   );
