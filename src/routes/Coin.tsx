@@ -169,7 +169,6 @@ function Coin() {
     () => fetchCoinTickers(coinId)
   );
 
-  
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
@@ -223,7 +222,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>
