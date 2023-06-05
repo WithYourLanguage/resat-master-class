@@ -30,12 +30,24 @@ import { useForm } from "react-hook-form";
 //   );
 // }
 
+interface IForm {
+  email: string;
+  first_name?: string;
+}
+
 function ToDoList() {
-  const { register, handleSubmit, formState } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>({
+    defaultValues: {
+      email: "@naver.com",
+    },
+  });
   const onValue = (data: any) => {
     console.log(data);
   };
-  console.log(formState.errors);
 
   return (
     <div>
@@ -44,13 +56,23 @@ function ToDoList() {
         onSubmit={handleSubmit(onValue)}
       >
         <input
-          {...register("Email", {
+          {...register("email", {
             required: "이메일이 필요합니당",
-            minLength: 10,
+            minLength: {
+              value: 10,
+              message: "더 길게 입력해주세요!",
+            },
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "Naver도메인의 Email만 등록 가능합니다",
+            },
           })}
           placeholder="Write a to do"
         />
-        <input {...register("first name")} placeholder="Write a to do" />
+        <span>{errors?.email?.message}</span>
+
+        <input {...register("first_name")} placeholder="Write a to do" />
+        <span>{errors?.first_name?.message}</span>
         <button>Add</button>
       </form>
     </div>
