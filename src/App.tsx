@@ -71,7 +71,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <ToDoList />?
+      <ToDoList />
     </>
   );
 }
