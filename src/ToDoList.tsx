@@ -33,6 +33,9 @@ import { useForm } from "react-hook-form";
 interface IForm {
   email: string;
   first_name?: string;
+  password1: string;
+  password2: string;
+  extraError?: string;
 }
 
 function ToDoList() {
@@ -40,13 +43,21 @@ function ToDoList() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com",
     },
   });
-  const onValue = (data: any) => {
-    console.log(data);
+  const onValue = (data: IForm) => {
+    if (data.password1 !== data.password2) {
+      setError(
+        "password1",
+        { message: "Password are not the same" },
+        { shouldFocus: true }
+      );
+    }
+    // setError("extraError", { message: "서버 오프라인" });
   };
 
   return (
@@ -71,9 +82,14 @@ function ToDoList() {
         />
         <span>{errors?.email?.message}</span>
 
-        <input {...register("first_name")} placeholder="Write a to do" />
+        <input {...register("first_name")} placeholder="first name" />
+        <input {...register("password1")} placeholder="password1" />
+        <span>{errors?.password1?.message}</span>
+
+        <input {...register("password2")} placeholder="password2" />
         <span>{errors?.first_name?.message}</span>
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
