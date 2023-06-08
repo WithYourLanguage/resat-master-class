@@ -1,6 +1,7 @@
 import { Droppable } from "react-beautiful-dnd";
 import DraggableCard from "./DraggableCard";
 import styled from "styled-components";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   padding-top: 10px;
@@ -42,9 +43,15 @@ const Area = styled.div<IAreaProps>`
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onClick = () => {
+    inputRef.current?.focus();
+  };
   return (
     <Wrapper>
       <Title>{boardId}</Title>
+      <input ref={inputRef} placeholder="grab me" />
+      <button onClick={onClick}>Click me</button>
       <Droppable droppableId={boardId}>
         {(magic, info) => (
           <Area
