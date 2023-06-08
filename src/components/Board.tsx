@@ -3,8 +3,7 @@ import DraggableCard from "./DraggableCard";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  padding: 20px 10px;
-  padding-top: 30px;
+  padding-top: 10px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.boardColor};
   min-height: 300px;
@@ -31,10 +30,15 @@ interface IAreaProps {
 
 const Area = styled.div<IAreaProps>`
   background-color: ${(props) =>
-    props.isDraggingOver ? "pink" : props.isDraggingFromThis ? "red" : "blue"};
+    props.isDraggingOver
+      ? "#dfe6e9"
+      : props.isDraggingFromThis
+      ? "#b2bec3"
+      : "transparent"};
   flex-grow: 1;
-  border-radius: 15px;
+  border-radius: 15px 15px 0px 0px;
   transition: background-color 0.2s ease-in-out;
+  padding: 20px;
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
