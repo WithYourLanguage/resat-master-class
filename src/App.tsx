@@ -1,12 +1,6 @@
 import styled from "styled-components";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useTransform,
-  useViewportScroll,
-} from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 const Wrapper = styled(motion.div)`
   height: 100vh;
@@ -14,84 +8,60 @@ const Wrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 50vw;
+  gap: 10px;
+  div:first-child,
+  div:last-child {
+    grid-column: span 2;
+  }
 `;
 
 const Box = styled(motion.div)`
-  width: 400px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 100px;
+  height: 200px;
   background-color: rgba(255, 255, 255, 1);
-  border-radius: 15px;
-  font-size: 28px;
+  border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const box = {
-  entry: (back: boolean) => {
-    return {
-      x: back ? -500 : 500,
-      opacity: 0,
-      scale: 0,
-    };
-  },
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.3,
-    },
-  },
-  exit: (back: boolean) => {
-    return {
-      x: back ? 500 : -500,
-      opacity: 0,
-      scale: 0,
-      transition: {
-        duration: 0.3,
-      },
-    };
-  },
-};
+const Overlay = styled(motion.div)`
+  width: 100%;
+  height: 100%;
 
-// const boxVariants = {
-//   hover: { scale: 1.5, rotateZ: 90 },
-//   click: { scale: 1, borderRadius: "100px" },
-// };
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function App() {
-  const [visiblle, setVisiblle] = useState(1);
-  const [back, setBack] = useState(false);
-  const nextPlease = () => {
-    setBack(false);
-    setVisiblle((prev) => (prev === 10 ? 10 : prev + 1));
+  const [clicked, setClicked] = useState(false);
+  const toggle = () => {
+    setClicked((prev) => !prev);
   };
-  const prevPlease = () => {
-    setBack(true);
-    setVisiblle((prev) => (prev === 1 ? 1 : prev - 1));
-  };
-
   return (
-    <Wrapper>
-      <AnimatePresence custom={back}>
-        <Box
-          custom={back}
-          variants={box}
-          initial="entry"
-          animate="center"
-          exit="exit"
-          key={visiblle}
-        >
-          {visiblle}
-        </Box>
+    <Wrapper onClick={toggle}>
+      <Grid>
+        <Box layoutId="hello" />
+        <Box />
+        <Box />
+        <Box />
+      </Grid>
+      <AnimatePresence>
+        {clicked ? (
+          <Overlay
+            initial={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+            animate={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+            exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+          >
+            <Box layoutId="hello" style={{ width: 400, height: 200 }} />
+          </Overlay>
+        ) : null}
       </AnimatePresence>
-      <button onClick={nextPlease}>next</button>
-      <button onClick={prevPlease}>prev</button>
     </Wrapper>
   );
 }
